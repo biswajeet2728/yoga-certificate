@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness By Vandana</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(135deg,
+                    #0f172a,
+                    #1e293b,
+                    #111827);
+
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+
+            background: #d4af37;
+
+            top: -100px;
+            left: -100px;
+
+            filter: blur(120px);
+
+            opacity: 0.4;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+
+            background: #b88b2d;
+
+            bottom: -100px;
+            right: -100px;
+
+            filter: blur(120px);
+
+            opacity: 0.3;
+        }
+
+        .glass-card {
+            width: 450px;
+            padding: 40px;
+            border-radius: 25px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        h1 {
+            text-align: center;
+            color: #8b6b2e;
+            margin-bottom: 10px;
+        }
+
+        p {
+            text-align: center;
+            color: #0d0808;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.5);
+
+
+            outline: none;
+        }
+
+        button {
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            color: white;
+
+            font-size: 16px;
+
+            background:
+                linear-gradient(45deg,
+                    #84621b,
+                    #f8c930);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .phone-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            background:
+                rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 0 15px;
+        }
+
+        .phone-group span {
+
+            color: inherit;
+        }
+
+        .phone-group input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+
+            padding: 14px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="glass-card">
+
+            <h1>International Day of Yoga 2026</h1>
+
+            <p>
+                Complete the form below to receive your participation certificate.
+            </p>
+
+            <form id="certificateForm">
+
+                <input type="text" placeholder="Full Name" id="name" required>
+
+                <div class="phone-group">
+                    <span>+91</span>
+
+                    <input type="tel" id="phone" placeholder="10-digit Mobile Number" maxlength="10" pattern="[0-9]{10}"
+                        required>
+                </div>
+
+                <input type="email" placeholder="Email Address (not mandatory)" id="email">
+
+                <button id="submitBtn" type="submit">
+                    Generate Certificate
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const phoneInput = document.getElementById("phone");
+
+        phoneInput.addEventListener("input", function () {
+
+            this.value = this.value
+                .replace(/\D/g, "")
+                .slice(0, 10);
+
+        });
+
+
+
+        let form = document.getElementById("certificateForm");
+        let submitBtn = document.querySelector("button");
+
+        let APP_URL = "https://script.google.com/macros/s/AKfycbx_zTxzHIQSHbUAZOwoY0yJS2JYfatsv38lLIzCTRCK2-rz1ntJOkb_c-lG4gS2crkykw/exec";
+
+
+        async function generateCertificate(name) {
+
+            const { jsPDF } = window.jspdf;
+
+            const doc = new jsPDF({
+                orientation: "landscape",
+                unit: "mm",
+                format: "a4"
+            });
+
+            const img = new Image();
+
+            img.src = "certificate-template.jpg";
+
+            img.onload = function () {
+
+                doc.addImage(
+                    img,
+                    "JPEG",
+                    0,
+                    0,
+                    297,
+                    210
+                );
+
+                doc.setFont("times", "bold");
+
+                doc.setTextColor(40, 40, 40);
+
+                doc.setFontSize(26);
+
+                doc.text(
+                    name.toUpperCase(),
+                    148,
+                    105,
+                    {
+                        align: "center"
+                    }
+                );
+
+                doc.save(`${name}-certificate.pdf`);
+            };
+        }
+
+        form.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Generating...";
+
+            let formData = {
+                name: document.getElementById("name").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                phone: document.getElementById("phone").value.trim(),
+            };
+
+            if (formData.phone.length !== 10) {
+
+                alert("Please enter a valid 10-digit mobile number");
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Generate Certificate";
+
+                return;
+            }
+
+            try {
+
+                const resp = await fetch(APP_URL, {
+                    method: "POST",
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await resp.text();
+
+                generateCertificate(formData.name);
+
+                alert("Certificate Downloaded Successfully");
+
+                form.reset();
+
+            } catch (error) {
+
+                console.error("Error is", error);
+
+                alert("Something went wrong");
+
+            } finally {
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Generate Certificate";
+
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>
