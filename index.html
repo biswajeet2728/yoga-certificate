@@ -7,6 +7,20 @@
     <title>Wellness By Vandana</title>
 
     <style>
+        html {
+
+            overflow: hidden;
+
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+
+            width: 100%;
+            height: 100%;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,26 +28,40 @@
             font-family: 'Poppins', sans-serif;
         }
 
+
         body {
             min-height: 100vh;
+            width: 100vw;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
+            padding: 16px;
+
+            overflow: hidden;
+
+            position: relative;
 
             background:
                 linear-gradient(135deg,
                     #0f172a,
                     #1e293b,
                     #111827);
-
-            overflow: hidden;
         }
 
+
+        /* Background glow */
+
         body::before {
+
             content: "";
+
             position: absolute;
+
             width: 350px;
             height: 350px;
+
             border-radius: 50%;
 
             background: #d4af37;
@@ -43,14 +71,19 @@
 
             filter: blur(120px);
 
-            opacity: 0.4;
+            opacity: .4;
         }
 
+
         body::after {
+
             content: "";
+
             position: absolute;
+
             width: 300px;
             height: 300px;
+
             border-radius: 50%;
 
             background: #b88b2d;
@@ -60,44 +93,100 @@
 
             filter: blur(120px);
 
-            opacity: 0.3;
+            opacity: .3;
         }
 
+
+
+        /* Container */
+
+        .container {
+
+            width: 100%;
+            max-width: 500px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Glass Card */
+
         .glass-card {
-            width: 450px;
+
+            width: 100%;
+            max-width: 450px;
+
             padding: 40px;
+
             border-radius: 25px;
 
-            background: rgba(255, 255, 255, 0.08);
+            background:
+                rgba(255, 255, 255, .08);
 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
 
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border:
+                1px solid rgba(255, 255, 255, .15);
 
             box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.35);
+                0 8px 32px rgba(0, 0, 0, .35);
         }
+
+
+
+        /* Heading */
 
         h1 {
+
             text-align: center;
+
             color: #8b6b2e;
+
             margin-bottom: 10px;
+
+            font-size: 2rem;
         }
+
+
+
+        /* Paragraph */
 
         p {
+
             text-align: center;
+
             color: #0d0808;
+
             margin-bottom: 25px;
+
+            line-height: 1.4;
         }
 
+
+
+        /* Form */
+
         form {
+
             display: flex;
+
             flex-direction: column;
+
             gap: 15px;
         }
 
+
+
+        /* Inputs */
+
         input {
+
+            width: 100%;
 
             padding: 14px;
 
@@ -105,26 +194,85 @@
 
             border-radius: 12px;
 
+
             background:
-                rgba(255, 255, 255, 0.5);
+                rgba(255, 255, 255, .5);
 
 
             outline: none;
         }
 
-        button {
 
-            padding: 15px;
 
-            border: none;
+        /* Phone */
+
+        .phone-group {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+
+            background:
+                rgba(255, 255, 255, .5);
+
 
             border-radius: 12px;
 
+            padding: 0 15px;
+        }
+
+
+        .phone-group span {
+
+            color: #1e293b;
+
+            font-weight: 600;
+        }
+
+
+
+        .phone-group input {
+
+            flex: 1;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            padding: 14px 0;
+        }
+
+
+
+        /* Button */
+
+        button {
+
+            width: 100%;
+
+            padding: 15px;
+
+
+            border: none;
+
+
+            border-radius: 12px;
+
+
             cursor: pointer;
+
 
             color: white;
 
+
             font-size: 16px;
+
+
 
             background:
                 linear-gradient(45deg,
@@ -132,38 +280,98 @@
                     #f8c930);
         }
 
+
+
         button:hover {
+
             transform: translateY(-2px);
         }
 
+
+
         button:disabled {
-            opacity: 0.6;
+
+            opacity: .6;
+
             cursor: not-allowed;
         }
 
-        .phone-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
 
-            background:
-                rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
-            padding: 0 15px;
+
+        /* Tablet */
+
+        @media(max-width:768px) {
+
+            .glass-card {
+
+                padding: 30px;
+            }
+
+
+            h1 {
+
+                font-size: 2rem;
+            }
+
+
+            p {
+
+                font-size: 15px;
+            }
+
         }
 
-        .phone-group span {
 
-            color: inherit;
-        }
 
-        .phone-group input {
-            flex: 1;
-            border: none;
-            outline: none;
-            background: transparent;
+        /* Mobile */
 
-            padding: 14px 0;
+        @media (max-width:480px) {
+
+            .glass-card {
+
+                padding: 24px;
+
+            }
+
+
+            h1 {
+
+                font-size: 1.6rem;
+
+            }
+
+
+            p {
+
+                font-size: 14px;
+
+                margin-bottom: 20px;
+
+            }
+
+
+            input {
+
+                padding: 12px;
+
+            }
+
+
+            .phone-group {
+
+                padding: 0 12px;
+
+            }
+
+
+            button {
+
+                padding: 13px;
+
+                font-size: 15px;
+
+            }
+
         }
     </style>
 </head>
